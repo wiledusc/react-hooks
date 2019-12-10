@@ -1,22 +1,27 @@
 import React, { useState, Fragment } from 'react'
-import AddUserForm from './forms/AddUserForm'
-import EditUserForm from './forms/EditUserForm'
-import UserTable from './tables/UserTable'
+import AddTravelForm from './forms/AddTravelForm'
+import EditTravelForm from './forms/EditTravelForm'
+import TravelTable from './tables/TravelTable'
 
 const App = () => {
-	// Data
 	const usersData = [
-		{ id: 1, name: 'Tania', username: 'floppydiskette' },
-		{ id: 2, name: 'Craig', username: 'siliconeidolon' },
-		{ id: 3, name: 'Ben', username: 'benisphere' },
+		{ 
+			id: 1, 
+			driver: 'William Schoeffel', 
+			plate: 'AAA-1234', 
+			cityDeparture: 'Canoinhas-SC', 
+			dateDeparture: '02/12/2019', 
+			cityArrival: 'São Paulo-SP',  
+			dateArrival: '07/12/2019'  
+		}
 	]
 
 	const initialFormState = { id: null, name: '', username: '' }
 
 	// Setting state
+	const [ formType, setFormType ] = useState('view')
 	const [ users, setUsers ] = useState(usersData)
 	const [ currentUser, setCurrentUser ] = useState(initialFormState)
-	const [ editing, setEditing ] = useState(false)
 
 	// CRUD operations
 	const addUser = user => {
@@ -25,52 +30,76 @@ const App = () => {
 	}
 
 	const deleteUser = id => {
-		setEditing(false)
-
 		setUsers(users.filter(user => user.id !== id))
 	}
 
 	const updateUser = (id, updatedUser) => {
-		setEditing(false)
-
 		setUsers(users.map(user => (user.id === id ? updatedUser : user)))
 	}
 
 	const editRow = user => {
-		setEditing(true)
-
-		setCurrentUser({ id: user.id, name: user.name, username: user.username })
+		setCurrentUser(
+			{ 
+				id: user.id, 
+				driver: user.driver, 
+				plate: user.plate,  
+				cityDeparture: user.cityDeparture, 
+				dateDeparture: user.dateDeparture,
+				cityArrival: user.cityArrival,
+				dateArrival: user.dateArrival
+			})
 	}
-
-	return (
-		<div className="container">
-			<h1>CRUD App with Hooks</h1>
-			<div className="flex-row">
-				<div className="flex-large">
-					{editing ? (
+	if(formType === 'edit') {
+		return (
+			<div className="container">
+				<h1>TPL Transportes - Registro de Viagens</h1>
+				<div className="flex-row">
+					<div className="flex-large">
 						<Fragment>
-							<h2>Edit user</h2>
-							<EditUserForm
-								editing={editing}
-								setEditing={setEditing}
+							<h2>Editar Viagem</h2>
+							<EditTravelForm
 								currentUser={currentUser}
 								updateUser={updateUser}
+								setFormType={setFormType}
 							/>
 						</Fragment>
-					) : (
-						<Fragment>
-							<h2>Add user</h2>
-							<AddUserForm addUser={addUser} />
-						</Fragment>
-					)}
-				</div>
-				<div className="flex-large">
-					<h2>View users</h2>
-					<UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
+					</div>
 				</div>
 			</div>
-		</div>
-	)
+		)
+	}
+	if(formType === 'add') {
+		return (
+			<div className="container">
+				<h1>TPL Transportes - Registro de Viagens</h1>
+				<div className="flex-row">
+					<div className="flex-large">
+						<Fragment>
+							<h2>Criar Nova Viagem</h2>
+							<AddTravelForm addUser={addUser} setFormType={setFormType} />
+						</Fragment>
+					</div>
+				</div>
+			</div>
+		)
+	}
+	else {
+		return (
+			<div className="container">
+				<h1>TPL Transportes - Registro de Viagens</h1>
+				<div className="flex-row">
+					<div className="flex-large">
+						<Fragment>
+							<h2>Lista de Viagens</h2>
+							<button onClick={() => setFormType('add')}>Adicionar</button>
+							<TravelTable users={users} editRow={editRow} deleteUser={deleteUser} setFormType={setFormType} />
+						</Fragment>
+					</div>
+				</div>
+			</div>
+		)
+	}
+	
 }
 
 export default App

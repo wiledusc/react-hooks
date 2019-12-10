@@ -1,45 +1,54 @@
 import React from 'react'
 
-const UserTable = props => (
+const TravelTable = props => (
   <table>
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Username</th>
-        <th>Actions</th>
+        <th>Motorista</th>
+        <th>Placa</th>
+        <th>Cidade Partida</th>
+        <th>Data Partida</th>
+        <th>Cidade Chegada</th>
+        <th>Previsão Chegada</th>
       </tr>
     </thead>
     <tbody>
       {props.users.length > 0 ? (
         props.users.map(user => (
           <tr key={user.id}>
-            <td>{user.name}</td>
-            <td>{user.username}</td>
+            <td>{user.driver}</td>
+            <td>{user.plate}</td>
+            <td>{user.cityDeparture}</td>
+            <td>{user.dateDeparture}</td>
+            <td>{user.cityArrival}</td>
+            <td>{user.dateArrival}</td>
             <td>
               <button
                 onClick={() => {
+                  props.setFormType('edit');
                   props.editRow(user)
                 }}
                 className="button muted-button"
               >
-                Edit
+                Editar
               </button>
               <button
                 onClick={() => props.deleteUser(user.id)}
                 className="button muted-button"
               >
-                Delete
+                Excluir
               </button>
             </td>
           </tr>
         ))
       ) : (
         <tr>
-          <td colSpan={3}>No users</td>
+          <td colSpan={8}>Sem Registros</td>
         </tr>
       )}
     </tbody>
   </table>
+
 )
 
-export default UserTable
+export default TravelTable
