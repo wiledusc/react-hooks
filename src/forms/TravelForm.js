@@ -1,8 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-const AddTravelForm = props => {
+const TravelForm = props => {
 	const initialFormState = { id: null, driver: '', plate: '', cityDeparture: '', dateDeparture: '', cityArrival: '', dateArrival: ''}
-	const [ user, setUser ] = useState(initialFormState)
+	const [ user, setUser ] = useState(initialFormState);
+	
+	useEffect(() => {
+		if(props.currentUser){
+			setUser(props.currentUser)
+		}
+	  },
+	  [ props ]
+	)
 
 	const handleInputChange = event => {
 		const { name, value} = event.target
@@ -14,8 +22,12 @@ const AddTravelForm = props => {
 			alert('Campo Motorista ou Placa em branco!');
 			return;
 		} 
-
-		props.addUser(user);
+		if(user.id != null){
+			props.updateUser(user.id, user);
+		}else{
+			props.addUser(user);
+		}
+		
 		props.setFormType('view');
 		setUser(initialFormState);
 	}
@@ -40,4 +52,4 @@ const AddTravelForm = props => {
 	)
 }
 
-export default AddTravelForm
+export default TravelForm

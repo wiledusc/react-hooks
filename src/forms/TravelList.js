@@ -1,6 +1,5 @@
 import React, { useState, Fragment } from 'react'
-import AddTravelForm from './AddTravelForm'
-import EditTravelForm from './EditTravelForm'
+import TravelForm from './TravelForm'
 import TravelTable from '../tables/TravelTable'
 
 const Home = () => {
@@ -57,7 +56,7 @@ const Home = () => {
 					<div className="flex-large">
 						<Fragment>
 							<h2>Editar Viagem</h2>
-							<EditTravelForm
+							<TravelForm
 								currentUser={currentUser}
 								updateUser={updateUser}
 								setFormType={setFormType}
@@ -76,7 +75,7 @@ const Home = () => {
 					<div className="flex-large">
 						<Fragment>
 							<h2>Criar Nova Viagem</h2>
-							<AddTravelForm addUser={addUser} setFormType={setFormType} />
+							<TravelForm addUser={addUser} setFormType={setFormType} />
 						</Fragment>
 					</div>
 				</div>
